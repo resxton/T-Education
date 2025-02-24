@@ -1,2 +1,2 @@
-<<First>> repository
+$$First repository$$
 ---
