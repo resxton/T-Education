@@ -1,4 +1,4 @@
-
+//: [Previous](@previous)
 /*:
  ## Задача 5: Математические операции.
  
@@ -75,5 +75,3 @@ performOperations(array1)
 let array2: [MathematicalOperations] = [.ln(3), .division(1, 0), .square(10), .power(10, 3), .remainder(52, 19), .exp(8), .abs(-1)]
 print("Тест 2")
 performOperations(array2)
-
-//: [Next](@next)
