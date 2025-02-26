@@ -23,6 +23,7 @@ enum MathematicalOperations {
     case multiplication(Int, Int)
     case division(Int, Int)
     case remainder(Int, Int)
+    case square(Int)
     case power(Int, Int)
     case sqrt(Int)
     case ln(Int)
@@ -51,6 +52,8 @@ func performOperations(_ operations: [MathematicalOperations]) {
             } else {
                 print("Остаток от деления – знаменатель равен нулю, результат не определен")
             }
+        case .square(let arg):
+            print("Квадрат – \(arg * arg)")
         case .power(let base, let power):
             print("Возведение в степень – \(Int(pow(Float(base), Float(power))))")
         case .sqrt(let arg):
@@ -69,7 +72,7 @@ let array1: [MathematicalOperations] = [.addition(1, 2), .power(2, 2)]
 print("Тест 1")
 performOperations(array1)
 
-let array2: [MathematicalOperations] = [.ln(3), .division(1, 0), .power(10, 3), .remainder(52, 19), .exp(8), .abs(-1)]
+let array2: [MathematicalOperations] = [.ln(3), .division(1, 0), .square(10), .power(10, 3), .remainder(52, 19), .exp(8), .abs(-1)]
 print("Тест 2")
 performOperations(array2)
 
