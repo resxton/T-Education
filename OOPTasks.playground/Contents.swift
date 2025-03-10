@@ -71,6 +71,13 @@ struct Book {
     var author: String
     var price: Double
     var genre: Genre
+    
+    init(title: String, author: String, price: Double, genre: Genre) {
+        self.title = title
+        self.author = author
+        self.price = max(0, price)
+        self.genre = genre
+    }
 }
 
 extension Book: CustomStringConvertible {
