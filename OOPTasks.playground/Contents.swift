@@ -86,7 +86,7 @@ extension Book: CustomStringConvertible {
     }
 }
 
-class Library {
+final class Library {
     var storage: [Book] = []
     
     func addBook(_ book: Book) {
@@ -102,7 +102,7 @@ class Library {
     }
 }
 
-class User {
+final class User {
     var name: String
     var discount: Double
     var cart: [Book] = []
