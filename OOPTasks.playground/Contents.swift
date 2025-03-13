@@ -59,9 +59,10 @@ enum Genre: String {
     case poems = "Поэма"
 }
 
-enum SortingType {
-    case titleAlphabetical
-    case price
+extension Genre: Comparable {
+    static func < (lhs: Genre, rhs: Genre) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
 }
 
 enum SortingOrder {
@@ -122,16 +123,10 @@ final class User {
         cart.reduce(0) { $0 + $1.price } * (1 - discount / 100)
     }
     
-    func sortedListOfBooks(by type: SortingType, order: SortingOrder) -> [Book] {
-        return cart.sorted { lhs, rhs in
-            let comparison: Bool
-            switch type {
-            case .titleAlphabetical:
-                comparison = lhs.title.lowercased() < rhs.title.lowercased()
-            case .price:
-                comparison = lhs.price < rhs.price
-            }
-            return order == .ascending ? comparison : !comparison
+    func sortedListOfBooks(by keyPath: KeyPath<Book, some Comparable>, order: SortingOrder) -> [Book] {
+        cart.sorted { lhs, rhs in
+            let result = lhs[keyPath: keyPath] < rhs[keyPath: keyPath]
+            return order == .ascending ? result : !result
         }
     }
 }
@@ -170,8 +165,8 @@ user.addToCart(novelBooks)
 let booksWithName = library.filterBooks(byName: "Гарри")
 user.addToCart(booksWithName)
 
-print("Итоговая корзина: \(user.sortedListOfBooks(by: .titleAlphabetical, order: .ascending))")
-// print("Итоговая корзина: \(user.sortedListOfBooks(by: .priceDescending))")
+print("Итоговая корзина: \(user.sortedListOfBooks(by: \.genre, order: .ascending))")
+print("Итоговая корзина: \(user.sortedListOfBooks(by: \.price, order: .descending))")
 
 print("Цена корзины: \(user.totalPrice())")
 
