@@ -60,35 +60,33 @@ enum Genre: String {
 }
 
 enum SortingType {
-    case titleAlphabeticalAscending
-    case titleAlphabeticalDescending
-    case priceAscending
-    case priceDescending
+    case titleAlphabetical
+    case price
+}
+
+enum SortingOrder {
+    case ascending
+    case descending
 }
 
 struct Book {
-    var title: String
-    var author: String
-    var price: Double
-    var genre: Genre
-    
-    init(title: String, author: String, price: Double, genre: Genre) {
-        self.title = title
-        self.author = author
-        self.price = max(0, price)
-        self.genre = genre
-    }
+    let title: String
+    let author: String
+    let price: Double
+    let genre: Genre
 }
 
 extension Book: CustomStringConvertible {
     var description: String {
-        "\(title), автор: \(author), стоимость: \(price), жанр: \(genre.rawValue)"
+        "(\(title), автор: \(author), стоимость: \(price), жанр: \(genre.rawValue))"
     }
 }
 
 final class Library {
-    var storage: [Book] = []
+    // MARK: - Private Properties
+    private var storage: [Book] = []
     
+    // MARK: - Public Methods
     func addBook(_ book: Book) {
         storage.append(book)
     }
@@ -103,36 +101,37 @@ final class Library {
 }
 
 final class User {
-    var name: String
-    var discount: Double
-    var cart: [Book] = []
+    // MARK: - Private Properties
+    private let name: String
+    private let discount: Double
+    private var cart: [Book] = []
     
+    // MARK: - Initializers
     init(name: String, discount: Double, cart: [Book] = []) {
         self.name = name
-        self.discount = discount / 100
+        self.discount = discount
         self.cart = cart
     }
     
+    // MARK: - Public Methods
     func addToCart(_ books: [Book]) {
         cart.append(contentsOf: books)
     }
     
     func totalPrice() -> Double {
-        cart.reduce(0) { $0 + $1.price } * (1 - discount)
+        cart.reduce(0) { $0 + $1.price } * (1 - discount / 100)
     }
     
-    func sortedListOfBooks(by type: SortingType) -> [Book] {
-        cart.sorted {
+    func sortedListOfBooks(by type: SortingType, order: SortingOrder) -> [Book] {
+        return cart.sorted { lhs, rhs in
+            let comparison: Bool
             switch type {
-            case .titleAlphabeticalAscending:
-                $0.title.lowercased() < $1.title.lowercased()
-            case .titleAlphabeticalDescending:
-                $0.title.lowercased() > $1.title.lowercased()
-            case .priceAscending:
-                $0.price < $1.price
-            case .priceDescending:
-                $0.price > $1.price
+            case .titleAlphabetical:
+                comparison = lhs.title.lowercased() < rhs.title.lowercased()
+            case .price:
+                comparison = lhs.price < rhs.price
             }
+            return order == .ascending ? comparison : !comparison
         }
     }
 }
@@ -171,7 +170,7 @@ user.addToCart(novelBooks)
 let booksWithName = library.filterBooks(byName: "Гарри")
 user.addToCart(booksWithName)
 
-print("Итоговая корзина: \(user.sortedListOfBooks(by: .titleAlphabeticalAscending))")
+print("Итоговая корзина: \(user.sortedListOfBooks(by: .titleAlphabetical, order: .ascending))")
 // print("Итоговая корзина: \(user.sortedListOfBooks(by: .priceDescending))")
 
 print("Цена корзины: \(user.totalPrice())")
