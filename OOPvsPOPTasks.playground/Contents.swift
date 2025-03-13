@@ -106,7 +106,7 @@ import UIKit
 class GameCharacter {
     // MARK: - Public Properties
     var name: String
-    var inventory: [Item] = []
+    var inventoryManager: InventoryManager?
     
     // MARK: - Private Properties
     private var health: Int {
@@ -126,6 +126,7 @@ class GameCharacter {
     
     // MARK: - Initializers
     init(name: String, health: Int = 10, level: Int = 1) {
+        inventoryManager = DefaultInventoryManager()
         self.name = name
         self.health = health
         self.level = level
@@ -188,12 +189,10 @@ extension GameCharacter: CustomStringConvertible {
 //          1 специфичный метод атаки (например, attack(target:), castSpell(spellName: target:), shootArrow(target:)).
 //          Переопределите метод атаки (опционально) для уникальности.
 
-class Wizard: GameCharacter {
+class Wizard: GameCharacter, ManaHolder {
     // MARK: - Public Properties
     var intelligence: Int
-    
-    // MARK: - Private Properties
-    private var mana: Int {
+    var mana: Int {
         didSet {
             print("ℹ️ Mana stealed from \(name): \(oldValue) -> \(mana)")
         }
@@ -218,7 +217,7 @@ class Wizard: GameCharacter {
             target.takeDamage(amount: Int.max)
             print("🔮 \(name) attacked \(target) with a zoltraak")
         } else {
-            target.takeDamage(amount: self.intelligence)
+            target.takeDamage(amount: self.mana)
             print("💫 \(name) attacked \(target) with a ordinary spell")
         }
     }
@@ -276,19 +275,14 @@ class AntiMage: GameCharacter {
     }
     
     // MARK: - Public Methods
-    func castCounterspell(target: GameCharacter, with radius: Int, willTake manaAmount: Int) {
+    func castCounterspell(target: ManaHolder, with radius: Int, willTake manaAmount: Int) {
         guard isAlive else {
             print("🚫 \(name) is dead, cant attack")
             return
         }
 
-        if let wizardTarget = target as? Wizard {
-            wizardTarget.manaLeak(amount: manaAmount)
-            print("🌀 \(name) attacked \(target) within \(radius) m and take \(manaAmount) mana from them")
-        } else {
-            target.takeDamage(amount: 0)
-            print("🚫 There is no mana to take")
-        }
+        target.manaLeak(amount: manaAmount)
+        print("🌀 \(name) attacked \(target) within \(radius) m and take \(manaAmount) mana from them")
     }
 }
 
@@ -308,6 +302,11 @@ protocol NotSoIntelligent {
     func buyRadiance()
 }
 
+protocol ManaHolder {
+    var mana: Int { get set }
+    func manaLeak(amount: Int)
+}
+
 extension Wizard: Intelligent {
     func diplomaticConflictResolution(target: GameCharacter) {
         guard isAlive else {
@@ -315,11 +314,11 @@ extension Wizard: Intelligent {
             return
         }
 
-        if !target.isAlive {
-            target.heal(amount: 1)
+        if target.isAlive {
+            print("🕊️ Resolved the conflict with \(target) without a fight")
+        } else {
+            print("🚫 Cannot resolve conflict with a dead (\(target))")
         }
-        
-        print("🕊️ Resolved the conflict with \(target) without a fight")
     }
 }
 
@@ -343,7 +342,9 @@ extension GameCharacter {
     var isAlive: Bool {
         health > 0 ? true : false
     }
-    
+}
+
+extension GameCharacter {
     func printCharacterInfo() {
         isAlive ? print("ℹ️ Alive character with name \(name), health \(health), level \(level)") : print("ℹ️ Dead character with name \(name), health \(health), level \(level)")
     }
@@ -389,7 +390,7 @@ class Crosier {
 extension Crosier: Item {
     func fix() {
         print("✨ fixing crosier")
-        durability += 1
+        durability = min(durability + 1, 100)
     }
     
     func shatter() {
@@ -445,7 +446,7 @@ class Radiance {
 extension Radiance: Item {
     func fix() {
         print("✨ fixing radiance")
-        durability += 1
+        durability = min(durability + 1, 100)
     }
     
     func shatter() {
@@ -472,21 +473,32 @@ extension Radiance: CustomStringConvertible {
     }
 }
 
-protocol InventoryHolder {
+protocol InventoryManager {
     var inventory: [Item] { get set }
     func addItem(_ item: Item)
     func removeItem(_ item: Item)
+    func showInventory()
 }
 
-extension GameCharacter: InventoryHolder {
+class DefaultInventoryManager: InventoryManager {
+    var inventory: [Item] = []
+
     func addItem(_ item: Item) {
         inventory.append(item)
-        print("🫴 \(name) got \(item)")
+        print("🫴 Item added: \(item)")
     }
-    
+
     func removeItem(_ item: Item) {
         inventory.removeAll { $0.id == item.id }
-        print("🫳 \(name) discarded \(item)")
+        print("🫳 Item removed: \(item)")
+    }
+    
+    func showInventory() {
+        print("Inventory: ", terminator: " ")
+        inventory.forEach {
+            print($0, terminator: " ")
+        }
+        print()
     }
 }
 
@@ -532,8 +544,12 @@ let signature = Radiance(weight: 1000, durability: 20, skillBonus: 1)
 let secondSignature = Radiance(weight: 100, durability: 20, skillBonus: 1)
 signature.blessingFromSerega()
 
-frieren.addItem(greatCrosier)
-seregaPirat.addItem(signature)
+frieren.inventoryManager?.addItem(greatCrosier)
+seregaPirat.inventoryManager?.addItem(signature)
 
-seregaPirat.addItem(secondSignature)
-seregaPirat.removeItem(secondSignature)
+seregaPirat.inventoryManager?.addItem(secondSignature)
+seregaPirat.inventoryManager?.showInventory()
+seregaPirat.inventoryManager?.removeItem(secondSignature)
+
+frieren.inventoryManager?.showInventory()
+seregaPirat.inventoryManager?.showInventory()
