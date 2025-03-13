@@ -13,4 +13,5 @@ public protocol Item {
     var durability: Int { get set }
     func fix()
     func shatter()
+    func attack(target: GameCharacter)
 }

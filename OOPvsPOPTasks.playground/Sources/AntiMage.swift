@@ -14,7 +14,7 @@ public class AntiMage: GameCharacter {
     private var agility: Int
     
     // MARK: - Initializers
-    public init(name: String, health: Int = 10, level: Int = 1, agility: Int = 10, radianceOwner: Bool = true) {
+    public init(name: String, health: Int = 10, level: Int = 1, agility: Int = 10, radianceOwner: Bool = false) {
         self.agility = agility
         self.radianceOwner = radianceOwner
         
@@ -40,7 +40,7 @@ public class AntiMage: GameCharacter {
         }
 
         target.manaLeak(amount: manaAmount)
-        print("🌀 \(name) attacked \(target) within \(radius) m and take \(manaAmount) mana from them")
+        print("🌀 \(name) attacked \(target) with \(radius) m and take \(manaAmount) mana from them")
     }
 }
 
@@ -50,6 +50,8 @@ extension AntiMage: NotSoIntelligent {
             print("🚫 \(name) is dead, cant buy radiance")
             return
         }
+        
+        self.inventoryManager?.addItem(Radiance(weight: 1000, durability: 100, skillBonus: 1))
 
         self.radianceOwner = true
         print("Oh, it's a good thing my team doesn't know...")
