@@ -104,13 +104,16 @@ final class Library {
 final class User {
     // MARK: - Private Properties
     private let name: String
-    private let discount: Double
+    private let discountPercent: Double
+    private var discountDouble: Double {
+        discountPercent / 100
+    }
     private var cart: [Book] = []
     
     // MARK: - Initializers
     init(name: String, discount: Double, cart: [Book] = []) {
         self.name = name
-        self.discount = discount
+        self.discountPercent = discount
         self.cart = cart
     }
     
@@ -120,7 +123,7 @@ final class User {
     }
     
     func totalPrice() -> Double {
-        cart.reduce(0) { $0 + $1.price } * (1 - discount / 100)
+        cart.reduce(0) { $0 + $1.price } * (1 - discountDouble)
     }
     
     func sortedListOfBooks(by keyPath: KeyPath<Book, some Comparable>, order: SortingOrder) -> [Book] {
