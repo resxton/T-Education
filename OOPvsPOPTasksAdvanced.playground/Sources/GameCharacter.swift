@@ -7,19 +7,22 @@
 
 public class GameCharacter {
     // MARK: - Public Properties
+    public var name: String
     public var level: Int
-
-    // MARK: - Private Properties
-    private var name: String
-    private var health: Int {
+    public var health: Int {
         didSet {
-            if oldValue > health {
-                print("\(name) was damaged: \(oldValue) -> \(health)")
+            if oldValue > health && health > 0 {
+                print("\(name) was damaged: \(oldValue) HP -> \(health) HP")
+            } else if health == 0 {
+                print("\(name) was killed: \(oldValue) HP -> \(health) HP")
+
             } else {
-                print("\(name) was healed: \(oldValue) -> \(health)")
+                print("\(name) was healed: \(oldValue) HP -> \(health) HP")
             }
         }
     }
+    
+    public var inventory = Inventory()
     
     // MARK: - Initializers
     public init(name: String, health: Int = 10, level: Int = 1) {
@@ -30,6 +33,11 @@ public class GameCharacter {
     
     // MARK: - Public Methods
     public func takeDamage(amount: Int) {
+        guard isAlive else {
+            print("[GameCharacter.takeDamage] – \(name) is already dead")
+            return
+        }
+        
         guard amount > 0 else {
             print("[GameCharacter.takeDamage] – damage amount must be positive")
             return
@@ -53,5 +61,34 @@ public class GameCharacter {
     
     public func levelUp() {
         level += 1
+    }
+    
+    public func basicAttack(target: GameCharacter) {
+        performAction {
+            if level > 100 {
+                target.takeDamage(amount: Int.max)
+            } else {
+                target.takeDamage(amount: level)
+            }
+        }
+    }
+    
+    public func performAction(_ action: () -> Void) {
+        guard isAlive else {
+            print("\(name) is dead, cant perform any action")
+            return
+        }
+        
+        action()
+    }
+}
+
+extension GameCharacter {
+    public var isAlive: Bool {
+        health > 0
+    }
+    
+    public func printCharacterInfo() {
+        print(isAlive ? "ℹ️ Alive character with name \(name), health \(health), level \(level)" : "ℹ️ Dead character with name \(name), health \(health), level \(level)")
     }
 }
