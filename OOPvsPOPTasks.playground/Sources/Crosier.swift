@@ -58,11 +58,6 @@ extension Crosier: Item {
         
         durability -= 1
     }
-    
-    public func attack(target: GameCharacter) {
-        
-    }
-    
 }
 
 extension Crosier: CustomStringConvertible {
