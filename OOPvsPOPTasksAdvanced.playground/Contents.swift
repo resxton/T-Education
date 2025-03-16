@@ -31,10 +31,17 @@ Frieren.healAlly(target: Himmel, amount: 1)
 
 let staff = Staff(weight: 1, attributeBonus: 1)
 mage.inventory.addItem(staff)
-mage.inventory
 
 // after staff
 mage.inventory.showInventory()
 mage.castSpell(on: Himmel) // 2 HP damage (attribute bonus worked)
 Frieren.healAlly(target: Himmel, amount: 2)
 
+let sword = Sword(weight: 1, attributeBonus: 1)
+mage.inventory.addItem(sword)
+mage.inventory.makePrimary(sword)
+
+// after sword
+mage.inventory.showInventory()
+mage.castSpell(on: Himmel) // 1 HP damage (attribute bonus didnt work)
+Frieren.healAlly(target: Himmel, amount: 1)

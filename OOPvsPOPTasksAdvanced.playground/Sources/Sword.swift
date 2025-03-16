@@ -7,14 +7,14 @@
 
 import Foundation
 
-class Sword: Item {
+public class Sword: Item {
     // MARK: - Public Properties
     public var id: UUID
     public var weight: Int
     public var attributeBonus: Int
     
     // MARK: - Initializers
-    init(weight: Int = 1, attributeBonus: Int = 1) {
+    public init(weight: Int = 1, attributeBonus: Int = 1) {
         self.id = UUID()
         self.weight = weight
         self.attributeBonus = attributeBonus

@@ -43,6 +43,10 @@ public class Inventory: InventoryProtocol {
     }
     
     public func showInventory() {
-        !storage.isEmpty ? print("Инвентарь: \(storage)") : print("Инвентарь пуст")
+        guard let primaryItem else {
+            print("Инвентарь: \(storage)")
+            return
+        }
+        !storage.isEmpty ? print("Инвентарь: \(storage)\nГлавный предмет: \(primaryItem)") : print("Инвентарь пуст")
     }
 }
