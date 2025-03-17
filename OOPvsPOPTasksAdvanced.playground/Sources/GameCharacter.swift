@@ -4,13 +4,7 @@ public class GameCharacter {
     public var level: Int
     public var health: Int {
         didSet {
-            if oldValue > health && isAlive {
-                print("\(name) was damaged: \(oldValue) HP -> \(health) HP")
-            } else if health == 0 {
-                print("\(name) was killed: \(oldValue) HP -> \(health) HP")
-            } else {
-                print("\(name) was healed: \(oldValue) HP -> \(health) HP")
-            }
+            handleHealthChange(oldValue: oldValue)
         }
     }
     
@@ -63,6 +57,7 @@ public class GameCharacter {
     public func basicAttack(target: GameCharacter) {
         performAction {
             let damage = level > GameCharacter.oneShotLevelThreshold ? Int.max : level
+            print("🗡️ \(name) attacked \(target.name) with basic attack")
             target.takeDamage(amount: damage)
         }
     }
@@ -74,6 +69,17 @@ public class GameCharacter {
         }
         
         action()
+    }
+    
+    // MARK: - Private Methods
+    private func handleHealthChange(oldValue: Int) {
+        if oldValue > health && health > 0 {
+            print("\(name) was damaged: \(oldValue) HP -> \(health) HP (-\(oldValue - health) HP)")
+        } else if health == 0 {
+            print("\(name) was killed: \(oldValue) HP -> \(health) HP")
+        } else {
+            print("\(name) was healed: \(oldValue) HP -> \(health) HP (+\(health - oldValue) HP)")
+        }
     }
 }
 

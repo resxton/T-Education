@@ -6,6 +6,10 @@ let Frieren = Mage(name: "Frieren", mana: 1000, intelligence: 100, health: 10000
 let Himmel = Warrior(name: "Himmel", strength: 100000, stamina: 500, health: 10000, level: 80)
 let DemonKing = GameCharacter(name: "Demon King", health: 1000000000, level: 101)
 
+basicCharacter.printCharacterInfo()
+Frieren.printCharacterInfo()
+Himmel.printCharacterInfo()
+
 // Leveling
 print("\n--- Leveling ---")
 basicCharacter.levelUp()

@@ -36,9 +36,9 @@ public class Warrior: GameCharacter {
                 return
             }
             
+            print("🗡️ \(name) attacked \(target.name) with charged attack")
             target.takeDamage(amount: level + strength + weaponBonus)
             stamina -= Warrior.chargedAttackStaminaCost
-            print("🗡️ \(name) attacked \(target.name) with charged attack")
         }
     }
 }
@@ -51,9 +51,9 @@ extension Warrior: Melee {
                 return
             }
             
+            print("🗡️ \(name) attacked \(target.name) with melee attack")
             target.takeDamage(amount: level)
             stamina -= Warrior.meleeAttackStaminaCost
-            print("🗡️ \(name) attacked \(target.name) with melee attack")
         }
     }
 }

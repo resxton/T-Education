@@ -30,10 +30,10 @@ public class Mage: GameCharacter {
     public func castSpell(on target: GameCharacter) {
         performAction {
             let damage = intelligence > Mage.zoltraakThreshold ? Int.max : intelligence + weaponBonus
-            target.takeDamage(amount: damage)
-            
             let spellType = intelligence > Mage.zoltraakThreshold ? "zoltraak" : "common attacking spell"
             print("🔮 \(name) attacked \(target.name) with a \(spellType)")
+
+            target.takeDamage(amount: damage)
         }
     }
     
