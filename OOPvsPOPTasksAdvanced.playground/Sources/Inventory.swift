@@ -11,10 +11,16 @@ public class Inventory: InventoryProtocol {
     // MARK: - Public Properties
     public var storage: [any Item] = []
     public var primaryItem: (any Item)? = nil
+    public var owner: String
     
     // MARK: - Private Properties
     private var totalWeight: Int {
         storage.reduce(0) { $0 + $1.weight }
+    }
+    
+    // MARK: - Initializers
+    init(owner: String) {
+        self.owner = owner
     }
     
     // MARK: - Public Methods
@@ -44,9 +50,9 @@ public class Inventory: InventoryProtocol {
     
     public func showInventory() {
         guard let primaryItem else {
-            print("Инвентарь: \(storage)")
+            print("Инвентарь \(owner): \(storage)")
             return
         }
-        !storage.isEmpty ? print("Инвентарь: \(storage)\nГлавный предмет: \(primaryItem)") : print("Инвентарь пуст")
+        !storage.isEmpty ? print("Инвентарь \(owner): \(storage)\nГлавный предмет: \(primaryItem)") : print("Инвентарь \(owner) пуст")
     }
 }

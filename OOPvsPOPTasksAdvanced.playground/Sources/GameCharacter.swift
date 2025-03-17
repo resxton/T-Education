@@ -1,31 +1,32 @@
-//
-//  GameCharacter.swift
-//  
-//
-//  Created by Сомов Кирилл on 16.03.2025.
-//
-
 public class GameCharacter {
     // MARK: - Public Properties
     public var name: String
     public var level: Int
     public var health: Int {
         didSet {
-            if oldValue > health && health > 0 {
+            if oldValue > health && isAlive {
                 print("\(name) was damaged: \(oldValue) HP -> \(health) HP")
             } else if health == 0 {
                 print("\(name) was killed: \(oldValue) HP -> \(health) HP")
-
             } else {
                 print("\(name) was healed: \(oldValue) HP -> \(health) HP")
             }
         }
     }
     
-    public var inventory = Inventory()
+    public var inventory: InventoryProtocol
+    
+    // MARK: - Private Properties
+    public static let oneShotLevelThreshold = 100
+    public static let defaultHealth = 10
+    public static let defaultLevel = 1
     
     // MARK: - Initializers
-    public init(name: String, health: Int = 10, level: Int = 1) {
+    public init(name: String,
+                health: Int = 10,
+                level: Int = 1) {
+        inventory = Inventory(owner: name)
+        
         self.name = name
         self.health = health
         self.level = level
@@ -39,20 +40,16 @@ public class GameCharacter {
         }
         
         guard amount > 0 else {
-            print("[GameCharacter.takeDamage] – damage amount must be positive")
+            print("[GameCharacter.takeDamage] – damage amount must be at least 1")
             return
         }
         
-        if amount < health {
-            health -= amount
-        } else {
-            health = 0
-        }
+        health = max(health - amount, 0)
     }
     
     public func heal(amount: Int) {
         guard amount > 0 else {
-            print("[GameCharacter.takeDamage] – healing amount must be positive")
+            print("[GameCharacter.heal] – healing amount must be at least 1")
             return
         }
         
@@ -65,11 +62,8 @@ public class GameCharacter {
     
     public func basicAttack(target: GameCharacter) {
         performAction {
-            if level > 100 {
-                target.takeDamage(amount: Int.max)
-            } else {
-                target.takeDamage(amount: level)
-            }
+            let damage = level > GameCharacter.oneShotLevelThreshold ? Int.max : level
+            target.takeDamage(amount: damage)
         }
     }
     

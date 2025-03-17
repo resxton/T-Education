@@ -1,10 +1,3 @@
-//
-//  Staff.swift
-//  
-//
-//  Created by Сомов Кирилл on 16.03.2025.
-//
-
 import Foundation
 
 public class Staff: Item {
@@ -13,8 +6,12 @@ public class Staff: Item {
     public var weight: Int
     public var attributeBonus: Int
     
+    public static let defaultWeight = 1
+    public static let defaultAttributeBonus = 1
+
     // MARK: - Initializers
-    public init(weight: Int = 1, attributeBonus: Int = 1) {
+    public init(weight: Int = Staff.defaultWeight,
+                attributeBonus: Int = Staff.defaultAttributeBonus) {
         self.id = UUID()
         self.weight = weight
         self.attributeBonus = attributeBonus

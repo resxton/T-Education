@@ -1,10 +1,3 @@
-//
-//  Warrior.swift
-//  
-//
-//  Created by Сомов Кирилл on 16.03.2025.
-//
-
 import Foundation
 
 public class Warrior: GameCharacter {
@@ -13,6 +6,9 @@ public class Warrior: GameCharacter {
     
     // MARK: - Private Properties
     private var stamina: Int
+    private static let chargedAttackStaminaCost = 10
+    private static let meleeAttackStaminaCost = 1
+    
     private var weaponBonus: Int {
         if let sword = inventory.primaryItem as? Sword {
             return sword.attributeBonus
@@ -21,7 +17,11 @@ public class Warrior: GameCharacter {
     }
     
     // MARK: - Initializers
-    public init(name: String, strength: Int, stamina: Int, health: Int = 10, level: Int = 1) {
+    public init(name: String,
+                strength: Int,
+                stamina: Int,
+                health: Int = GameCharacter.defaultHealth,
+                level: Int = GameCharacter.defaultLevel) {
         self.strength = strength
         self.stamina = stamina
         
@@ -31,13 +31,13 @@ public class Warrior: GameCharacter {
     // MARK: - Public Methods
     public func chargedAttack(target: GameCharacter) {
         performAction {
-            guard stamina >= 10 else {
-                print("[Warrior.chargedAttack] – stamina must be at least 10 to perform charged attack")
+            guard stamina >= Warrior.chargedAttackStaminaCost else {
+                print("[Warrior.chargedAttack] – stamina must be at least \(Warrior.chargedAttackStaminaCost) to perform charged attack")
                 return
             }
             
             target.takeDamage(amount: level + strength + weaponBonus)
-            stamina -= 10
+            stamina -= Warrior.chargedAttackStaminaCost
             print("🗡️ \(name) attacked \(target.name) with charged attack")
         }
     }
@@ -46,13 +46,13 @@ public class Warrior: GameCharacter {
 extension Warrior: Melee {
     public func meleeAttack(target: GameCharacter) {
         performAction {
-            guard stamina > 0 else {
-                print("[Warrior.meleeAttack] – stamina must be positive to perform melee attack")
+            guard stamina >= Warrior.meleeAttackStaminaCost else {
+                print("[Warrior.meleeAttack] – stamina must be at least \(Warrior.meleeAttackStaminaCost) to perform melee attack")
                 return
             }
             
             target.takeDamage(amount: level)
-            stamina -= 1
+            stamina -= Warrior.meleeAttackStaminaCost
             print("🗡️ \(name) attacked \(target.name) with melee attack")
         }
     }

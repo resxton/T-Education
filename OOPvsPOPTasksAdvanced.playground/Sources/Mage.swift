@@ -1,10 +1,3 @@
-//
-//  Mage.swift
-//  
-//
-//  Created by Сомов Кирилл on 16.03.2025.
-//
-
 import Foundation
 
 public class Mage: GameCharacter {
@@ -13,6 +6,8 @@ public class Mage: GameCharacter {
     public var intelligence: Int
     
     // MARK: - Private Properties
+    private static let zoltraakThreshold = 10_000
+    
     private var weaponBonus: Int {
         if let staff = inventory.primaryItem as? Staff {
             return staff.attributeBonus
@@ -21,24 +16,24 @@ public class Mage: GameCharacter {
     }
     
     // MARK: - Initializers
-    public init(name: String, health: Int = 10, level: Int = 1, mana: Int, intelligence: Int) {
+    public init(name: String,
+                mana: Int,
+                intelligence: Int,
+                health: Int = GameCharacter.defaultHealth,
+                level: Int = GameCharacter.defaultLevel) {
         self.mana = mana
         self.intelligence = intelligence
-        
         super.init(name: name, health: health, level: level)
     }
-    
     
     // MARK: - Public Methods
     public func castSpell(on target: GameCharacter) {
         performAction {
-            if intelligence > 10000 {
-                target.takeDamage(amount: Int.max)
-                print("🔮 \(name) attacked \(target.name) with a zoltraak")
-            } else {
-                target.takeDamage(amount: intelligence + weaponBonus)
-                print("💫 \(name) attacked \(target.name) with a common attacking spell")
-            }
+            let damage = intelligence > Mage.zoltraakThreshold ? Int.max : intelligence + weaponBonus
+            target.takeDamage(amount: damage)
+            
+            let spellType = intelligence > Mage.zoltraakThreshold ? "zoltraak" : "common attacking spell"
+            print("🔮 \(name) attacked \(target.name) with a \(spellType)")
         }
     }
     
@@ -52,7 +47,7 @@ public class Mage: GameCharacter {
 extension Mage: ManaHolder {
     public func manaLeak(amount: Int) {
         guard amount > 0 else {
-            print("[Mage.manaLeak] – mana leak amount must be positive")
+            print("[Mage.manaLeak] – mana leak amount must be at least 1")
             return
         }
     }

@@ -13,12 +13,16 @@ public class Sword: Item {
     public var weight: Int
     public var attributeBonus: Int
     
+    public static let defaultWeight = 1
+    public static let defaultAttributeBonus = 1
+    
     // MARK: - Initializers
-    public init(weight: Int = 1, attributeBonus: Int = 1) {
-        self.id = UUID()
-        self.weight = weight
-        self.attributeBonus = attributeBonus
-    }
+    public init(weight: Int = Sword.defaultWeight,
+                attributeBonus: Int = Sword.defaultAttributeBonus) {
+            self.id = UUID()
+            self.weight = weight
+            self.attributeBonus = attributeBonus
+        }
 }
 
 extension Sword: CustomStringConvertible {
