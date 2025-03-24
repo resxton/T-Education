@@ -1,7 +1,6 @@
 import Foundation
 
 public final class Warrior: GameCharacter {
-public final class Warrior: GameCharacter {
     // MARK: - Public Properties
     public var strength: Int
     
