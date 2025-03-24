@@ -7,10 +7,20 @@
 
 import Foundation
 
-var badPerson: Person? = Person(name: "ARCeniy", carModel: "WeakLa")
+var badPerson: Person? = Person(name: "ARCeniy", carModel: "Strongy")
 var carOfBadPerson: Car? = badPerson?.car
 
+print("Non-Fixed retain cycle")
 print(badPerson ?? "", carOfBadPerson ?? "", separator: "\n")
 
 badPerson = nil
 carOfBadPerson = nil // Не происходит очищения
+
+var goodPerson: FixedPerson? = FixedPerson(name: "NonArceniy", carModel: "Weakly")
+var carOfGoodPerson: FixedCar? = goodPerson?.car
+
+print("\nFixed retain cycle")
+print(goodPerson ?? "", carOfGoodPerson ?? "", separator: "\n")
+
+goodPerson = nil
+carOfGoodPerson  = nil // Происходит очищение
