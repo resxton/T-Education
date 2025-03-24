@@ -9,7 +9,6 @@ public enum GCConst: Int {
 public class GameCharacter {
     // MARK: - Public Properties
     public let name: String
-
     public var inventory: InventoryProtocol
     
     // MARK: - Private Properties
@@ -88,7 +87,7 @@ public extension GameCharacter {
         health > 0
     }
     
-     func printCharacterInfo() {
+    func printCharacterInfo() {
         print(isAlive ? "ℹ️ Alive character with name \(name), health \(health), level \(level)" : "ℹ️ Dead character with name \(name), health \(health), level \(level)")
     }
 }

@@ -1,13 +1,17 @@
 import Foundation
 
+private enum WarriorConst: Int {
+    case chargedAttackStaminaCost = 10
+    case meleeAttackStrengthTreshold = 5
+    case defaultManaLeakFromMeleeAttack = 1
+}
+
 public final class Warrior: GameCharacter {
     // MARK: - Public Properties
     public var strength: Int
     
     // MARK: - Private Properties
     private var stamina: Int
-    private static let chargedAttackStaminaCost = 10
-    private static let meleeAttackStaminaCost = 1
     
     private var weaponBonus: Int {
         if let sword = inventory.primaryItem as? Sword {
@@ -31,15 +35,15 @@ public final class Warrior: GameCharacter {
     // MARK: - Public Methods
     public func chargedAttack(target: GameCharacter) {
         performAction {
-            guard stamina >= Warrior.chargedAttackStaminaCost else {
-                print("[Warrior.chargedAttack] – stamina must be at least \(Warrior.chargedAttackStaminaCost) to perform charged attack")
+            guard stamina >= WarriorConst.chargedAttackStaminaCost.rawValue else {
+                print("[Warrior.chargedAttack] – stamina must be at least \(WarriorConst.chargedAttackStaminaCost.rawValue) to perform charged attack")
                 return
             }
             
             print("🗡️ \(name) attacked \(target.name) with charged attack")
             target.takeDamage(amount: currentLevel() + strength + weaponBonus)
             target.takeDamage(amount: currentLevel() + strength + weaponBonus)
-            stamina -= Warrior.chargedAttackStaminaCost
+            stamina -= WarriorConst.chargedAttackStaminaCost.rawValue
         }
     }
 }
@@ -47,15 +51,19 @@ public final class Warrior: GameCharacter {
 extension Warrior: Melee {
     public func meleeAttack(target: GameCharacter) {
         performAction {
-            guard stamina >= Warrior.meleeAttackStaminaCost else {
-                print("[Warrior.meleeAttack] – stamina must be at least \(Warrior.meleeAttackStaminaCost) to perform melee attack")
+            guard strength >= WarriorConst.meleeAttackStrengthTreshold.rawValue else {
+                print("[Warrior.meleeAttack] – strength must be at least \(WarriorConst.meleeAttackStrengthTreshold.rawValue) to perform melee attack")
                 return
             }
             
             print("🗡️ \(name) attacked \(target.name) with melee attack")
-            target.takeDamage(amount: currentLevel())
-            target.takeDamage(amount: currentLevel())
-            stamina -= Warrior.meleeAttackStaminaCost
+            target.takeDamage(amount: currentLevel() + strength)
+            
+            guard let manaHolder = target as? ManaHolder else {
+                return
+            }
+            
+            manaHolder.manaLeak(amount: WarriorConst.defaultManaLeakFromMeleeAttack.rawValue) // Немного вариативности)
         }
     }
 }

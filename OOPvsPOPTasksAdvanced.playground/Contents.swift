@@ -2,9 +2,10 @@ import UIKit
 
 // Logging in
 let basicCharacter = GameCharacter(name: "Steve", health: 100, level: 12)
-let frieren = Mage(name: "frieren", mana: 1000, intelligence: 100, health: 100000000, level: 100000000)
-let himmel = Warrior(name: "himmel", strength: 100000, stamina: 500, health: 10000, level: 80)
+let frieren = Mage(name: "Frieren", mana: 1000, intelligence: 100, health: 100000000, level: 100000000)
+let himmel = Warrior(name: "Himmel", strength: 100000, stamina: 500, health: 10000, level: 80)
 let demonKing = GameCharacter(name: "Demon King", health: 1000000000, level: 101)
+let mageKing = Mage(name: "Mage King", mana: 1000, intelligence: 1000, health: 100, level: 100)
 
 basicCharacter.printCharacterInfo()
 frieren.printCharacterInfo()
@@ -25,6 +26,7 @@ print("\n--- Attacking ---")
 demonKing.basicAttack(target: basicCharacter)
 himmel.meleeAttack(target: demonKing)
 himmel.chargedAttack(target: demonKing)
+himmel.meleeAttack(target: mageKing)
 frieren.castSpell(on: demonKing)
 
 // Inventory testing

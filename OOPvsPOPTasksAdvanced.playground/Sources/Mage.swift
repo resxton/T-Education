@@ -56,5 +56,13 @@ extension Mage: ManaHolder {
             print("[Mage.manaLeak] – mana leak amount must be at least 1")
             return
         }
+        
+        if amount > mana {
+            mana = 0
+            print("\(name) lost all mana")
+        } else {
+            mana -= amount
+            print("\(name) lost \(amount) mana")
+        }
     }
 }

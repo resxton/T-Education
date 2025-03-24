@@ -1,5 +1,5 @@
 //
-//  Item.swift
+//  InventoryItemProtocol.swift
 //  
 //
 //  Created by Сомов Кирилл on 16.03.2025.
