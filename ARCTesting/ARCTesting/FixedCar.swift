@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FixedCar {
+final class FixedCar {
     var model: String
     weak var owner: FixedPerson?
     

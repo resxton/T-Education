@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Car {
+final class Car {
     var model: String
     var owner: Person?
     

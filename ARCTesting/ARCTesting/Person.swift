@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Person {
+final class Person {
     var name: String
     var car: Car
     
