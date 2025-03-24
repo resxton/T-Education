@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+final class Dog: Animal {
+    public override func speak() {
+        print("Woof!")
+    }
+}
