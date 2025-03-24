@@ -12,6 +12,8 @@ public final class Staff: InventoryItemProtocol {
     // MARK: - Initializers
     public init(weight: Int = ItemConst.defaultWeight.rawValue,
                 attributeBonus: Int = ItemConst.defaultAttributeBonus.rawValue) {
+    public init(weight: Int = ItemConst.defaultWeight.rawValue,
+                attributeBonus: Int = ItemConst.defaultAttributeBonus.rawValue) {
         self.id = UUID()
         self.weight = weight
         self.attributeBonus = attributeBonus
