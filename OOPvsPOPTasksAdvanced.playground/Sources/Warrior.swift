@@ -1,6 +1,6 @@
 import Foundation
 
-public class Warrior: GameCharacter {
+public final class Warrior: GameCharacter {
     // MARK: - Public Properties
     public var strength: Int
     
@@ -20,8 +20,8 @@ public class Warrior: GameCharacter {
     public init(name: String,
                 strength: Int,
                 stamina: Int,
-                health: Int = GameCharacter.defaultHealth,
-                level: Int = GameCharacter.defaultLevel) {
+                health: Int = Const.defaultHealth.rawValue,
+                level: Int = Const.defaultLevel.rawValue) {
         self.strength = strength
         self.stamina = stamina
         
@@ -37,7 +37,7 @@ public class Warrior: GameCharacter {
             }
             
             print("🗡️ \(name) attacked \(target.name) with charged attack")
-            target.takeDamage(amount: level + strength + weaponBonus)
+            target.takeDamage(amount: currentLevel() + strength + weaponBonus)
             stamina -= Warrior.chargedAttackStaminaCost
         }
     }
@@ -52,7 +52,7 @@ extension Warrior: Melee {
             }
             
             print("🗡️ \(name) attacked \(target.name) with melee attack")
-            target.takeDamage(amount: level)
+            target.takeDamage(amount: currentLevel())
             stamina -= Warrior.meleeAttackStaminaCost
         }
     }

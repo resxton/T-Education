@@ -1,24 +1,25 @@
+import Foundation
+
+public enum GCConst: Int {
+    case oneShotLevelThreshold = 100
+    case defaultHealth = 10
+    case defaultLevel = 1
+}
+
 public class GameCharacter {
     // MARK: - Public Properties
-    public var name: String
-    public var level: Int
-    public var health: Int {
-        didSet {
-            handleHealthChange(oldValue: oldValue)
-        }
-    }
-    
+    public let name: String
+
     public var inventory: InventoryProtocol
     
     // MARK: - Private Properties
-    public static let oneShotLevelThreshold = 100
-    public static let defaultHealth = 10
-    public static let defaultLevel = 1
+    private var level: Int
+    private var health: Int
     
     // MARK: - Initializers
     public init(name: String,
-                health: Int = 10,
-                level: Int = 1) {
+                health: Int = GCConst.defaultHealth.rawValue,
+                level: Int = GCConst.defaultLevel.rawValue) {
         inventory = Inventory(owner: name)
         
         self.name = name
@@ -39,6 +40,11 @@ public class GameCharacter {
         }
         
         health = max(health - amount, 0)
+        if health == 0 {
+            print("\(name) was killed")
+        } else {
+            print("\(name) was damaged by \(amount) HP")
+        }
     }
     
     public func heal(amount: Int) {
@@ -48,6 +54,11 @@ public class GameCharacter {
         }
         
         health += amount
+        print("\(name) was healed by \(amount) HP")
+    }
+    
+    public func currentLevel() -> Int {
+        level
     }
     
     public func levelUp() {
@@ -56,7 +67,7 @@ public class GameCharacter {
     
     public func basicAttack(target: GameCharacter) {
         performAction {
-            let damage = level > GameCharacter.oneShotLevelThreshold ? Int.max : level
+            let damage = level > GCConst.oneShotLevelThreshold.rawValue ? Int.max : level
             print("🗡️ \(name) attacked \(target.name) with basic attack")
             target.takeDamage(amount: damage)
         }
@@ -70,25 +81,14 @@ public class GameCharacter {
         
         action()
     }
-    
-    // MARK: - Private Methods
-    private func handleHealthChange(oldValue: Int) {
-        if oldValue > health && health > 0 {
-            print("\(name) was damaged: \(oldValue) HP -> \(health) HP (-\(oldValue - health) HP)")
-        } else if health == 0 {
-            print("\(name) was killed: \(oldValue) HP -> \(health) HP")
-        } else {
-            print("\(name) was healed: \(oldValue) HP -> \(health) HP (+\(health - oldValue) HP)")
-        }
-    }
 }
 
-extension GameCharacter {
-    public var isAlive: Bool {
+public extension GameCharacter {
+    var isAlive: Bool {
         health > 0
     }
     
-    public func printCharacterInfo() {
+     func printCharacterInfo() {
         print(isAlive ? "ℹ️ Alive character with name \(name), health \(health), level \(level)" : "ℹ️ Dead character with name \(name), health \(health), level \(level)")
     }
 }
