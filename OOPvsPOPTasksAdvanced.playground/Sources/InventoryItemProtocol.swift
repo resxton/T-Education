@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ItemConst: Int {
+public enum InventoryItemConst: Int {
     case defaultWeight = 10
     case defaultAttributeBonus = 1
 }

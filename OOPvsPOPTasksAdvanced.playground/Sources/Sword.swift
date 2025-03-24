@@ -15,8 +15,8 @@ public final class Sword: InventoryItemProtocol {
     
     // MARK: - Initializers
     public init(
-        weight: Int = ItemConst.defaultWeight.rawValue,
-        attributeBonus: Int = ItemConst.defaultAttributeBonus.rawValue
+        weight: Int = InventoryItemConst.defaultWeight.rawValue,
+        attributeBonus: Int = InventoryItemConst.defaultAttributeBonus.rawValue
     ) {
         self.id = UUID()
         self.weight = weight

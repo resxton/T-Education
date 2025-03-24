@@ -5,14 +5,11 @@ public final class Staff: InventoryItemProtocol {
     public var id: UUID
     public var weight: Int
     public var attributeBonus: Int
-    
-    public static let defaultWeight = 1
-    public static let defaultAttributeBonus = 1
 
     // MARK: - Initializers
     public init(
-        weight: Int = ItemConst.defaultWeight.rawValue,
-        attributeBonus: Int = ItemConst.defaultAttributeBonus.rawValue
+        weight: Int = InventoryItemConst.defaultWeight.rawValue,
+        attributeBonus: Int = InventoryItemConst.defaultAttributeBonus.rawValue
     ) {
         self.id = UUID()
         self.weight = weight
