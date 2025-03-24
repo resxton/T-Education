@@ -6,11 +6,11 @@
 //
 
 public protocol InventoryProtocol {
-    var storage: [Item] { get }
+    var storage: [InventoryItemProtocol] { get }
     var owner: String { get set }
-    var primaryItem: Item? { get set }
-    func addItem(_ item: Item)
-    func removeItem(_ item: Item)
-    func makePrimary(_ item: Item)
+    var primaryItem: InventoryItemProtocol? { get set }
+    func addItem(_ item: InventoryItemProtocol)
+    func removeItem(_ item: InventoryItemProtocol)
+    func makePrimary(_ item: InventoryItemProtocol)
     func showInventory()
 }

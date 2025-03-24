@@ -7,9 +7,13 @@
 
 import Foundation
 
-public protocol Item {
+public enum ItemConst: Int {
+    case defaultWeight = 10
+    case defaultAttributeBonus = 1
+}
+
+public protocol InventoryItemProtocol {
     var id: UUID { get set }
     var weight: Int { get set }
     var attributeBonus: Int { get set }
 }
-

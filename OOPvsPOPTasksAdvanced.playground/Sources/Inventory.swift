@@ -7,24 +7,19 @@
 
 import Foundation
 
-public class Inventory: InventoryProtocol {
+public final class Inventory: InventoryProtocol {
     // MARK: - Public Properties
-    public var storage: [any Item] = []
-    public var primaryItem: (any Item)? = nil
+    public var storage: [any InventoryItemProtocol] = []
+    public var primaryItem: (any InventoryItemProtocol)? = nil
     public var owner: String
-    
-    // MARK: - Private Properties
-    private var totalWeight: Int {
-        storage.reduce(0) { $0 + $1.weight }
-    }
-    
+
     // MARK: - Initializers
     init(owner: String) {
         self.owner = owner
     }
     
     // MARK: - Public Methods
-    public func addItem(_ item: any Item) {
+    public func addItem(_ item: any InventoryItemProtocol) {
         storage.append(item)
         
         if storage.count == 1 {
@@ -32,7 +27,7 @@ public class Inventory: InventoryProtocol {
         }
     }
     
-    public func removeItem(_ item: any Item) {
+    public func removeItem(_ item: any InventoryItemProtocol) {
         storage.removeAll { $0.id == item.id }
         
         if primaryItem?.id == item.id {
@@ -40,7 +35,7 @@ public class Inventory: InventoryProtocol {
         }
     }
     
-    public func makePrimary(_ item: any Item) {
+    public func makePrimary(_ item: any InventoryItemProtocol) {
         if storage.contains(where: { $0.id == item.id }) {
             primaryItem = item
         } else {

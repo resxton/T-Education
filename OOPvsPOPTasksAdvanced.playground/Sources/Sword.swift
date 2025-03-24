@@ -7,18 +7,15 @@
 
 import Foundation
 
-public class Sword: Item {
+public final class Sword: InventoryItemProtocol {
     // MARK: - Public Properties
     public var id: UUID
     public var weight: Int
     public var attributeBonus: Int
     
-    public static let defaultWeight = 1
-    public static let defaultAttributeBonus = 1
-    
     // MARK: - Initializers
-    public init(weight: Int = Sword.defaultWeight,
-                attributeBonus: Int = Sword.defaultAttributeBonus) {
+    public init(weight: Int = ItemConst.defaultWeight.rawValue,
+                attributeBonus: Int = ItemConst.defaultAttributeBonus.rawValue) {
             self.id = UUID()
             self.weight = weight
             self.attributeBonus = attributeBonus

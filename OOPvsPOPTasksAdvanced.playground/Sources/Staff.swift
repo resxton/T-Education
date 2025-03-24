@@ -1,6 +1,6 @@
 import Foundation
 
-public class Staff: Item {
+public final class Staff: InventoryItemProtocol {
     // MARK: - Public Properties
     public var id: UUID
     public var weight: Int
@@ -10,8 +10,8 @@ public class Staff: Item {
     public static let defaultAttributeBonus = 1
 
     // MARK: - Initializers
-    public init(weight: Int = Staff.defaultWeight,
-                attributeBonus: Int = Staff.defaultAttributeBonus) {
+    public init(weight: Int = ItemConst.defaultWeight.rawValue,
+                attributeBonus: Int = ItemConst.defaultAttributeBonus.rawValue) {
         self.id = UUID()
         self.weight = weight
         self.attributeBonus = attributeBonus
