@@ -19,11 +19,13 @@ public final class Mage: GameCharacter {
     }
     
     // MARK: - Initializers
-    public init(name: String,
-                mana: Int,
-                intelligence: Int,
-                health: Int = GCConst.defaultHealth.rawValue,
-                level: Int = GCConst.defaultLevel.rawValue) {
+    public init(
+        name: String,
+        mana: Int,
+        intelligence: Int,
+        health: Int = GCConst.defaultHealth.rawValue,
+        level: Int = GCConst.defaultLevel.rawValue
+    ) {
         self.mana = mana
         self.intelligence = intelligence
         super.init(name: name, health: health, level: level)
@@ -38,12 +40,14 @@ public final class Mage: GameCharacter {
             let damage = intelligence > MageConst.zoltraakThreshold.rawValue ? Int.max : intelligence + weaponBonus
             let spellType = intelligence > MageConst.zoltraakThreshold.rawValue ? "zoltraak" : "common attacking spell"
             print("🔮 \(name) attacked \(target.name) with a \(spellType)")
-
             target.takeDamage(amount: damage)
         }
     }
     
-    public func healAlly(target: GameCharacter, amount: Int) {
+    public func healAlly(
+        target: GameCharacter,
+        amount: Int
+    ) {
         performAction {
             target.heal(amount: amount)
         }

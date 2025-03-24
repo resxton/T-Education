@@ -39,15 +39,15 @@ public final class Inventory: InventoryProtocol {
         if storage.contains(where: { $0.id == item.id }) {
             primaryItem = item
         } else {
-            print("Предмет не найден в инвентаре.")
+            print("No such item.")
         }
     }
     
     public func showInventory() {
         guard let primaryItem else {
-            print("Инвентарь \(owner): \(storage)")
+            print("Inventory of \(owner): \(storage)")
             return
         }
-        !storage.isEmpty ? print("Инвентарь \(owner): \(storage)\nГлавный предмет: \(primaryItem)") : print("Инвентарь \(owner) пуст")
+        !storage.isEmpty ? print("Inventory of \(owner): \(storage)\nPrimary item: \(primaryItem)") : print("Inventory of \(owner) is empty")
     }
 }

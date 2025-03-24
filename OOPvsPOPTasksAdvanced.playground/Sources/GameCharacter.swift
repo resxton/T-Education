@@ -16,9 +16,11 @@ public class GameCharacter {
     private var health: Int
     
     // MARK: - Initializers
-    public init(name: String,
-                health: Int = GCConst.defaultHealth.rawValue,
-                level: Int = GCConst.defaultLevel.rawValue) {
+    public init(
+        name: String,
+        health: Int = GCConst.defaultHealth.rawValue,
+        level: Int = GCConst.defaultLevel.rawValue
+    ) {
         inventory = Inventory(owner: name)
         
         self.name = name

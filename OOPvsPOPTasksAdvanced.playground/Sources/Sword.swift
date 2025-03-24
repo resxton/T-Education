@@ -14,12 +14,14 @@ public final class Sword: InventoryItemProtocol {
     public var attributeBonus: Int
     
     // MARK: - Initializers
-    public init(weight: Int = ItemConst.defaultWeight.rawValue,
-                attributeBonus: Int = ItemConst.defaultAttributeBonus.rawValue) {
-            self.id = UUID()
-            self.weight = weight
-            self.attributeBonus = attributeBonus
-        }
+    public init(
+        weight: Int = ItemConst.defaultWeight.rawValue,
+        attributeBonus: Int = ItemConst.defaultAttributeBonus.rawValue
+    ) {
+        self.id = UUID()
+        self.weight = weight
+        self.attributeBonus = attributeBonus
+    }
 }
 
 extension Sword: CustomStringConvertible {

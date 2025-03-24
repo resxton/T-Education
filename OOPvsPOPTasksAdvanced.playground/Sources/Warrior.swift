@@ -42,7 +42,6 @@ public final class Warrior: GameCharacter {
             
             print("🗡️ \(name) attacked \(target.name) with charged attack")
             target.takeDamage(amount: currentLevel() + strength + weaponBonus)
-            target.takeDamage(amount: currentLevel() + strength + weaponBonus)
             stamina -= WarriorConst.chargedAttackStaminaCost.rawValue
         }
     }
@@ -55,15 +54,12 @@ extension Warrior: Melee {
                 print("[Warrior.meleeAttack] – strength must be at least \(WarriorConst.meleeAttackStrengthTreshold.rawValue) to perform melee attack")
                 return
             }
-            
             print("🗡️ \(name) attacked \(target.name) with melee attack")
-            target.takeDamage(amount: currentLevel() + strength)
-            
             guard let manaHolder = target as? ManaHolder else {
                 return
             }
-            
             manaHolder.manaLeak(amount: WarriorConst.defaultManaLeakFromMeleeAttack.rawValue) // Немного вариативности)
+            target.takeDamage(amount: currentLevel() + strength)
         }
     }
 }
