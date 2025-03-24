@@ -58,6 +58,10 @@ public class GameCharacter {
         print("\(name) was healed by \(amount) HP")
     }
     
+    public func currentHealth() -> Int {
+        health
+    }
+    
     public func currentLevel() -> Int {
         level
     }
@@ -68,7 +72,9 @@ public class GameCharacter {
     
     public func basicAttack(target: GameCharacter) {
         performAction {
-            let damage = level > GCConst.oneShotLevelThreshold.rawValue ? Int.max : level
+            // При уровне выше GCConst.oneShotLevelThreshold
+            // урон обычной атаки станет летальным для любого противника
+            let damage = level > GCConst.oneShotLevelThreshold.rawValue ? target.currentHealth() : level
             print("🗡️ \(name) attacked \(target.name) with basic attack")
             target.takeDamage(amount: damage)
         }

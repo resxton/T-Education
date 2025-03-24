@@ -37,7 +37,7 @@ public final class Mage: GameCharacter {
             // При уровне intelligence выше Mage.zoltraakThreshold
             // вместо обычного заклинания будет применено
             // заклинание Зольтраак, наносящее летальный урон любому противнику
-            let damage = intelligence > MageConst.zoltraakThreshold.rawValue ? Int.max : intelligence + weaponBonus
+            let damage = intelligence > MageConst.zoltraakThreshold.rawValue ? target.currentHealth() : intelligence + weaponBonus
             let spellType = intelligence > MageConst.zoltraakThreshold.rawValue ? "zoltraak" : "common attacking spell"
             print("🔮 \(name) attacked \(target.name) with a \(spellType)")
             target.takeDamage(amount: damage)
