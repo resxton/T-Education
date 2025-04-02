@@ -43,6 +43,6 @@ final class ProductFaсtory: ProductFactoryProtocol {
 private extension ProductFaсtory {
     enum Consts {
         static let fileName: String = "products"
-        static let errorMessage: String = "Erorr with decoding json"
+        static let errorMessage: String = "Error with decoding json"
     }
 }
