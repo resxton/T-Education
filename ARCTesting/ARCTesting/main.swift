@@ -11,7 +11,7 @@ let firstDog = Dog()
 let firstCat = Cat()
 let secondDog = Dog()
 
-var animals: [Animal] = [firstDog, firstCat, secondDog]
+let animals: [Animal] = [firstDog, firstCat, secondDog]
 
 for animal in animals {
     animal.speak()

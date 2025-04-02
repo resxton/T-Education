@@ -8,7 +8,7 @@
 import Foundation
 
 final class Cat: Animal {
-    public override func speak() {
+    override func speak() {
         print("Meow!")
     }
 }
