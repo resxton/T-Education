@@ -11,7 +11,7 @@ final class MainViewController: UIViewController {
 
     // MARK: - Visual Components
     
-    lazy var imageView: UIImageView = {
+    private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -19,7 +19,7 @@ final class MainViewController: UIViewController {
         return imageView
     }()
     
-    lazy var brandNameLabel: UILabel = {
+    private var brandNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = Consts.brandNameLabelColor
@@ -27,7 +27,7 @@ final class MainViewController: UIViewController {
         return label
     }()
     
-    lazy var productNameLabel: UILabel = {
+    private var productNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.textColor = .white
@@ -35,7 +35,7 @@ final class MainViewController: UIViewController {
         return label
     }()
     
-    lazy var priceLabel: UILabel = {
+    private var priceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 22, weight: .bold)
         label.textColor = .white
@@ -43,14 +43,14 @@ final class MainViewController: UIViewController {
         return label
     }()
     
-    lazy var fullPriceLabel: UILabel = {
+    private var fullPriceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 22, weight: .bold)
         label.textAlignment = .left
         return label
     }()
     
-    lazy var nextProductButton: UIButton = {
+    private var nextProductButton: UIButton = {
         let button = UIButton()
         button.setTitle(Consts.nextProductButtonTitle, for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -58,7 +58,7 @@ final class MainViewController: UIViewController {
         button.backgroundColor = .white
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
-        button.addTarget(self, action: #selector(nextProduct), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(nextProduct), for: .touchUpInside)
         return button
     }()
 
