@@ -8,13 +8,21 @@
 import Foundation
 
 final class FixedPerson {
-    var name: String
-    var car: FixedCar
+    private let name: String
+    private let car: FixedCar
     
     init(name: String, carModel: String) {
         self.name = name
         self.car = FixedCar(model: carModel)
         self.car.owner = self
+    }
+    
+    func getName() -> String {
+        name
+    }
+    
+    func getCar() -> FixedCar {
+        car
     }
     
     deinit {
@@ -24,6 +32,6 @@ final class FixedPerson {
 
 extension FixedPerson: CustomStringConvertible {
     var description: String {
-        "Person \(name) with car \(car.model)"
+        "Person \(name) with car \(car.getModel())"
     }
 }

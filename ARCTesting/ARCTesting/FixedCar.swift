@@ -8,11 +8,15 @@
 import Foundation
 
 final class FixedCar {
-    var model: String
+    private let model: String
     weak var owner: FixedPerson?
     
     init(model: String) {
         self.model = model
+    }
+    
+    func getModel() -> String {
+        model
     }
     
     deinit {
@@ -22,6 +26,6 @@ final class FixedCar {
 
 extension FixedCar: CustomStringConvertible {
     var description: String {
-        "Car \(model) with owner \(owner?.name ?? "")"
+        "Car \(model) with owner \(owner?.getName() ?? "")"
     }
 }
