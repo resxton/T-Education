@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Игрушечная машина Fiat 500",
+    "brand": "Burago",
+    "fullPrice": 2499,
+    "priceWithDiscount": 1999,
+    "imageName": "Car"
+  },
+  {
+    "name": "Средство для очистки поверхностей",
+    "brand": "Mitzie",
+    "fullPrice": 659,
+    "priceWithDiscount": 419,
+    "imageName": "SurfaceCleaner"
+  },
+  {
+    "name": "Табурет деревянный",
+    "brand": "IKEA",
+    "fullPrice": 1490,
+    "priceWithDiscount": 990,
+    "imageName": "Stool"
+  },
+  {
+    "name": "Термос для напитков 500 мл",
+    "brand": "Thermos",
+    "fullPrice": 1490,
+    "priceWithDiscount": 890,
+    "imageName": "Bottle"
+  },
+  {
+    "name": "Мгновенная камера OneStep 2",
+    "brand": "Polaroid",
+    "fullPrice": 12490,
+    "priceWithDiscount": 9990,
+    "imageName": "Polaroid"
+  },
+  {
+    "name": "Умные часы с NFC",
+    "brand": "CMF by Nothing",
+    "fullPrice": 8990,
+    "priceWithDiscount": 7490,
+    "imageName": "SmartWatch"
+  }
+]

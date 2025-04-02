@@ -1,0 +1,20 @@
+# Включенные правила
+opt_in_rules:
+  - force_unwrapping
+  - force_cast
+  - prohibited_super_call
+
+# Отключенные правила
+disabled_rules:
+  - line_length
+  - file_length
+  - function_body_length
+
+# Кастомизация
+line_length: 150
+warning_threshold: 5
+
+excluded:
+  - Pods
+  - Generated
+  - Carthage
