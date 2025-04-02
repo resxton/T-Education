@@ -127,13 +127,23 @@ final class MainViewController: UIViewController {
     private func nextProduct() {
         if let nextProduct = productFactory?.nextProduct(),
            let image = UIImage(named: nextProduct.imageName) {
-            UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve) { [weak self] in
+            
+            UIView.transition(
+                with: view,
+                duration: 0.3,
+                options: .transitionCrossDissolve
+            ) { [weak self] in
                 guard let self else { return }
                 imageView.image = image
                 brandNameLabel.text = nextProduct.brand.uppercased()
                 productNameLabel.text = nextProduct.name
                 priceLabel.text = nextProduct.priceWithDiscount.formattedWithSpace()
-                fullPriceLabel.setStrikethroughText(nextProduct.fullPrice.formattedWithSpace(), textColor: Consts.fullPriceLabelColor, strikethroughWidth: Consts.strikethroughWidth)
+                fullPriceLabel
+                    .setStrikethroughText(
+                        nextProduct.fullPrice.formattedWithSpace(),
+                        textColor: Consts.fullPriceLabelColor,
+                        strikethroughWidth: Consts.strikethroughWidth
+                    )
             }
             
         }

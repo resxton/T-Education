@@ -13,7 +13,12 @@ protocol ProductFactoryProtocol {
 
 final class ProductFaсtory: ProductFactoryProtocol {
     
-    var storage: [Product] = []
+    // MARK: - Private Properties
+    
+    private var storage: [Product] = []
+    private var currentIndex = 0
+    
+    // MARK: - Initializers
     
     init() {
         if let filePath = Bundle.main.path(forResource: Consts.fileName, ofType: "json"),
@@ -25,18 +30,13 @@ final class ProductFaсtory: ProductFactoryProtocol {
         }
     }
     
-    func nextProduct() -> Product {
-        guard let randomProduct = storage.randomElement() else {
-            return Product(
-                name: "Игрушечная машина Fiat 500",
-                brand: "Burago",
-                fullPrice: 2499,
-                priceWithDiscount: 1499,
-                imageName: "Car"
-            )
-        }
+    // MARK: - Public methods
+
+    public func nextProduct() -> Product {
+        let product = storage[currentIndex]
+        currentIndex = (currentIndex + 1) % storage.count
         
-        return randomProduct
+        return product
     }
 }
 
