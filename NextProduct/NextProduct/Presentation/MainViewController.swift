@@ -51,7 +51,7 @@ final class MainViewController: UIViewController {
         button.backgroundColor = Consts.buttonBackgroundColor
         button.layer.cornerRadius = Consts.cornerRadius
         button.layer.masksToBounds = true
-        button.addTarget(nil, action: #selector(nextProduct), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(showProduct), for: .touchUpInside)
         return button
     }()
 
@@ -74,15 +74,24 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUI()
         setupConsraints()
-        nextProduct()
+        showProduct()
     }
     
     // MARK: - Private Methods
     
     private func setupUI() {
-        let views = [imageView, brandNameLabel, productNameLabel, priceLabel, fullPriceLabel, nextProductButton]
+        let views = [
+            imageView,
+            brandNameLabel,
+            productNameLabel,
+            priceLabel,
+            fullPriceLabel,
+            nextProductButton
+        ]
+        
         views.forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -116,9 +125,9 @@ final class MainViewController: UIViewController {
     }
     
     @objc
-    private func nextProduct() {
-        let nextProduct = productFactory.getProduct()
-        guard let image = UIImage(named: nextProduct.imageName) else { return }
+    private func showProduct() {
+        let product = productFactory.loadProduct()
+        guard let image = UIImage(named: product.imageName) else { return }
         
         UIView.transition(
             with: view,
@@ -127,12 +136,12 @@ final class MainViewController: UIViewController {
         ) { [weak self] in
             guard let self else { return }
             imageView.image = image
-            brandNameLabel.text = nextProduct.brand.uppercased()
-            productNameLabel.text = nextProduct.name
-            priceLabel.text = nextProduct.priceWithDiscount.formattedAsRussianCurrency()
+            brandNameLabel.text = product.brand.uppercased()
+            productNameLabel.text = product.name
+            priceLabel.text = product.priceWithDiscount.formattedAsRussianCurrency()
             fullPriceLabel
                 .setStrikethroughText(
-                    nextProduct.fullPrice.formattedAsRussianCurrency(),
+                    product.fullPrice.formattedAsRussianCurrency(),
                     textColor: Consts.fullPriceLabelColor,
                     strikethroughWidth: Consts.strikethroughWidth
                 )
