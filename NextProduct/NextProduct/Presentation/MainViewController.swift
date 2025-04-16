@@ -1,62 +1,55 @@
-//
-//  ViewController.swift
-//  NextProduct
-//
-//  Created by Сомов Кирилл on 02.04.2025.
-//
-
 import UIKit
 
 final class MainViewController: UIViewController {
 
     // MARK: - Visual Components
     
-    private var imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = Consts.imageBackgroundColor
         return imageView
     }()
     
-    private var brandNameLabel: UILabel = {
+    private let brandNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.font = .systemFont(ofSize: Consts.smallFontSize, weight: .medium)
         label.textColor = Consts.brandNameLabelColor
         label.textAlignment = .left
         return label
     }()
     
-    private var productNameLabel: UILabel = {
+    private let productNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
-        label.textColor = .white
+        label.font = .systemFont(ofSize: Consts.mediumFontSize, weight: .regular)
+        label.textColor = Consts.textColor
         label.textAlignment = .left
         return label
     }()
     
-    private var priceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 22, weight: .bold)
-        label.textColor = .white
+        label.font = .systemFont(ofSize: Consts.largeFontSize, weight: .bold)
+        label.textColor = Consts.textColor
         label.textAlignment = .left
         return label
     }()
     
-    private var fullPriceLabel: UILabel = {
+    private let fullPriceLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.font = .systemFont(ofSize: Consts.largeFontSize, weight: .bold)
         label.textAlignment = .left
         return label
     }()
     
-    private var nextProductButton: UIButton = {
+    private let nextProductButton: UIButton = {
         let button = UIButton()
         button.setTitle(Consts.nextProductButtonTitle, for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .regular)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 16
+        button.titleLabel?.font = .systemFont(ofSize: Consts.mediumFontSize, weight: .regular)
+        button.backgroundColor = Consts.buttonBackgroundColor
+        button.layer.cornerRadius = Consts.cornerRadius
         button.layer.masksToBounds = true
         button.addTarget(nil, action: #selector(nextProduct), for: .touchUpInside)
         return button
@@ -64,11 +57,11 @@ final class MainViewController: UIViewController {
 
     // MARK: - Private Properties
     
-    private var productFactory: ProductFactoryProtocol?
+    private let productFactory: ProductFactoryProtocol
 
     // MARK: - Initializers
     
-    init(productFactory: ProductFactoryProtocol?) {
+    init(productFactory: ProductFactoryProtocol) {
         self.productFactory = productFactory
         super.init(nibName: nil, bundle: nil)
     }
@@ -81,7 +74,6 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        productFactory = ProductFaсtory()
         setupUI()
         setupConsraints()
         nextProduct()
@@ -125,27 +117,25 @@ final class MainViewController: UIViewController {
     
     @objc
     private func nextProduct() {
-        if let nextProduct = productFactory?.nextProduct(),
-           let image = UIImage(named: nextProduct.imageName) {
-            
-            UIView.transition(
-                with: view,
-                duration: 0.3,
-                options: .transitionCrossDissolve
-            ) { [weak self] in
-                guard let self else { return }
-                imageView.image = image
-                brandNameLabel.text = nextProduct.brand.uppercased()
-                productNameLabel.text = nextProduct.name
-                priceLabel.text = nextProduct.priceWithDiscount.formattedWithSpace()
-                fullPriceLabel
-                    .setStrikethroughText(
-                        nextProduct.fullPrice.formattedWithSpace(),
-                        textColor: Consts.fullPriceLabelColor,
-                        strikethroughWidth: Consts.strikethroughWidth
-                    )
-            }
-            
+        let nextProduct = productFactory.getProduct()
+        guard let image = UIImage(named: nextProduct.imageName) else { return }
+        
+        UIView.transition(
+            with: view,
+            duration: Consts.animationDuration,
+            options: .transitionCrossDissolve
+        ) { [weak self] in
+            guard let self else { return }
+            imageView.image = image
+            brandNameLabel.text = nextProduct.brand.uppercased()
+            productNameLabel.text = nextProduct.name
+            priceLabel.text = nextProduct.priceWithDiscount.formattedAsRussianCurrency()
+            fullPriceLabel
+                .setStrikethroughText(
+                    nextProduct.fullPrice.formattedAsRussianCurrency(),
+                    textColor: Consts.fullPriceLabelColor,
+                    strikethroughWidth: Consts.strikethroughWidth
+                )
         }
     }
 }
@@ -165,6 +155,13 @@ private extension MainViewController {
         static let buttonHeight: CGFloat = 57
         static let strikethroughWidth: Int = 1
         static let imageHeight: CGFloat = 440
+        static let smallFontSize: CGFloat = 16
+        static let mediumFontSize: CGFloat = 18
+        static let largeFontSize: CGFloat = 22
+        static let cornerRadius: CGFloat = 16
+        static let animationDuration: TimeInterval = 0.3
+        static let textColor: UIColor = .white
+        static let imageBackgroundColor: UIColor = .white
+        static let buttonBackgroundColor: UIColor = .white
     }
 }
-

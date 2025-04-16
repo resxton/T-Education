@@ -1,14 +1,7 @@
-//
-//  Int+Ext.swift
-//  NextProduct
-//
-//  Created by Сомов Кирилл on 02.04.2025.
-//
-
 import Foundation
 
 extension Int {
-    func formattedWithSpace() -> String {
+    func formattedAsRussianCurrency() -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.currencySymbol = "₽"

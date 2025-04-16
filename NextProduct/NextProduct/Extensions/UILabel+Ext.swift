@@ -1,10 +1,3 @@
-//
-//  UILabel+Ext.swift
-//  NextProduct
-//
-//  Created by Сомов Кирилл on 02.04.2025.
-//
-
 import UIKit
 
 extension UILabel {
