@@ -1,7 +1,8 @@
 import Foundation
 
 protocol ProductFactoryProtocol {
-    func loadProduct() -> Product
+    func loadFirstProduct() -> Product
+    func loadNextProduct() -> Product
 }
 
 final class ProductFaсtory: ProductFactoryProtocol {
@@ -26,16 +27,22 @@ final class ProductFaсtory: ProductFactoryProtocol {
     
     // MARK: - Public methods
 
-    public func loadProduct() -> Product {
-        let product = storage[currentIndex]
+    public func loadFirstProduct() -> Product {
+        if currentIndex != 0 {
+            currentIndex = 0
+        }
         
+        return storage[currentIndex]
+    }
+    
+    public func loadNextProduct() -> Product {
         if currentIndex < storage.count - 1 {
             currentIndex += 1
         } else {
             currentIndex = 0
         }
         
-        return product
+        return storage[currentIndex]
     }
 }
 

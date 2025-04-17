@@ -51,7 +51,7 @@ final class MainViewController: UIViewController {
         button.backgroundColor = Consts.buttonBackgroundColor
         button.layer.cornerRadius = Consts.cornerRadius
         button.layer.masksToBounds = true
-        button.addTarget(nil, action: #selector(showProduct), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(showNextProduct), for: .touchUpInside)
         return button
     }()
 
@@ -77,7 +77,7 @@ final class MainViewController: UIViewController {
         
         setupUI()
         setupConsraints()
-        showProduct()
+        showFirstProduct()
     }
     
     // MARK: - Private Methods
@@ -124,9 +124,18 @@ final class MainViewController: UIViewController {
         ])
     }
     
+    private func showFirstProduct() {
+        let product = productFactory.loadFirstProduct()
+        show(product: product)
+    }
+    
     @objc
-    private func showProduct() {
-        let product = productFactory.loadProduct()
+    private func showNextProduct() {
+        let product = productFactory.loadNextProduct()
+        show(product: product)
+    }
+    
+    private func show(product: Product) {
         guard let image = UIImage(named: product.imageName) else { return }
         
         UIView.transition(
@@ -153,24 +162,33 @@ final class MainViewController: UIViewController {
 
 private extension MainViewController {
     enum Consts {
+        // MARK: - Colors
         static let brandNameLabelColor = UIColor(red: 131/255, green: 135/255, blue: 145/255, alpha: 1.0)
-        static let fullPriceLabelColor: UIColor = UIColor(white: 1, alpha: 0.3)
+        static let fullPriceLabelColor = UIColor(white: 1, alpha: 0.3)
+        static let textColor: UIColor = .white
+        static let imageBackgroundColor: UIColor = .white
+        static let buttonBackgroundColor: UIColor = .white
+
+        // MARK: - Text
         static let nextProductButtonTitle = "Показать следующий товар"
+        static let smallFontSize: CGFloat = 16
+        static let mediumFontSize: CGFloat = 18
+        static let largeFontSize: CGFloat = 22
+
+        // MARK: - Layout
         static let margin: CGFloat = 16
         static let productTopMargin: CGFloat = 4
         static let fullPriceLeftMargin: CGFloat = 8
         static let fullPriceYOffset: CGFloat = 1
         static let buttonBottomMargin: CGFloat = 10
         static let buttonHeight: CGFloat = 57
-        static let strikethroughWidth: Int = 1
         static let imageHeight: CGFloat = 440
-        static let smallFontSize: CGFloat = 16
-        static let mediumFontSize: CGFloat = 18
-        static let largeFontSize: CGFloat = 22
         static let cornerRadius: CGFloat = 16
+
+        // MARK: - Decorations
+        static let strikethroughWidth: Int = 1
+
+        // MARK: - Animation
         static let animationDuration: TimeInterval = 0.3
-        static let textColor: UIColor = .white
-        static let imageBackgroundColor: UIColor = .white
-        static let buttonBackgroundColor: UIColor = .white
     }
 }
