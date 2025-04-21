@@ -27,7 +27,7 @@ final class ProductFaсtory: ProductFactoryProtocol {
     
     // MARK: - Public methods
 
-    public func loadFirstProduct() -> Product {
+    func loadFirstProduct() -> Product {
         if currentIndex != 0 {
             currentIndex = 0
         }
@@ -35,7 +35,7 @@ final class ProductFaсtory: ProductFactoryProtocol {
         return storage[currentIndex]
     }
     
-    public func loadNextProduct() -> Product {
+    func loadNextProduct() -> Product {
         if currentIndex < storage.count - 1 {
             currentIndex += 1
         } else {
